@@ -7,5 +7,5 @@ class Todo < ApplicationRecord
   has_many :items
 
   validates :subject, presence: true
-  validates :status, presence: true, inclusion: { in: Types::TodoStatus.values.map(&:serialize) }
+  validates :status, presence: true, inclusion: { in: TodoStatus.values.map(&:serialize) }
 end

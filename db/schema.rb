@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_05_053500) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_05_160902) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -175,7 +175,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_053500) do
   end
 
   create_table "todos", force: :cascade do |t|
-    t.integer "status"
+    t.string "status"
     t.string "subject"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

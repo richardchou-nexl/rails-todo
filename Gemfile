@@ -68,3 +68,7 @@ end
 gem "jsbundling-rails", "~> 1.3"
 
 gem "rspec-rails", "~> 7.1"
+
+gem 'sorbet', :group => :development
+gem 'sorbet-runtime'
+gem 'tapioca', require: false, :group => [:development, :test]

@@ -72,3 +72,6 @@ gem "rspec-rails", "~> 7.1"
 gem 'sorbet', :group => :development
 gem 'sorbet-runtime'
 gem 'tapioca', require: false, :group => [:development, :test]
+
+gem "graphql", "~> 2.5"
+gem "graphiql-rails", "~> 1.10"

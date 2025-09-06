@@ -2,11 +2,15 @@
 
 module Types
   class MutationType < Types::BaseObject
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World"
+    field :insert_todo, Types::TodoType, null: false do
+      argument :subject, String, required: true
+      argument :status, Types::TodoStatusEnum, required: false
+    end
+
+    def insert_todo(subject:, status: nil)
+      status ||= ::TodoStatus::NOT_STARTED.serialize
+
+      ::Todo.create!(subject: subject, status: status)
     end
   end
 end

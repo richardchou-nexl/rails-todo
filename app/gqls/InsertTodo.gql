@@ -1,0 +1,6 @@
+mutation InsertTodo($subject: String!, $status: TodoStatusEnum) {
+  insertTodo(subject: $subject, status: $status) {
+    id
+    subject
+  }
+}

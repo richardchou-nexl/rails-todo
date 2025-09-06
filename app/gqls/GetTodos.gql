@@ -1,0 +1,7 @@
+query Todos($status: TodoStatusEnum) {
+  todos(status: $status) {
+    id
+    status
+    subject
+  }
+}

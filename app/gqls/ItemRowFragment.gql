@@ -1,0 +1,3 @@
+fragment ItemRow on Item {
+  title
+}

@@ -8,8 +8,8 @@ module Types
     end
 
     def todos(status: nil)
-      scope = ::Todo.all
-      scope = scope.where(status: status) if status.present?
+      scope = ::Todo.includes(:items)
+      scope = scope.where(status: status).references(:statuses) if status.present?
       scope
     end
   end

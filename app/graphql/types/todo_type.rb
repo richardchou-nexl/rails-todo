@@ -7,5 +7,7 @@ module Types
     field :status, Types::TodoStatusEnum, null: false
     field :created_at, String, null: false
     field :updated_at, String, null: false
+
+    field :items, [Types::ItemType], null: false
   end
 end

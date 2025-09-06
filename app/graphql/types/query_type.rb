@@ -2,9 +2,8 @@
 
 module Types
   class QueryType < Types::BaseObject
-    
     field :todos, [Types::TodoType], null: false do
-      description "List of todos"
+      description 'List of todos'
       argument :status, Types::TodoStatusEnum, required: false
     end
 

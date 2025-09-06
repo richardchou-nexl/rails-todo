@@ -1,0 +1,13 @@
+query Search($q: String!) {
+  search(query: $q) {
+    __typename
+    ... on Todo {
+      id
+      subject
+    }
+    ... on Item {
+      id
+      title
+    }
+  }
+}

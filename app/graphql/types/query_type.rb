@@ -2,15 +2,52 @@
 
 module Types
   class QueryType < Types::BaseObject
+    # query Todos($status: TodoStatusEnum) {
+    #   todos(status: $status) {
+    #     id
+    #     status
+    #     subject
+
+    #     items	{
+    #       title
+    #     }
+    #   }
+    # }
     field :todos, [Types::TodoType], null: false do
       description 'List of todos'
       argument :status, Types::TodoStatusEnum, required: false
+    end
+
+    # query Search($q: String!) {
+    #   search(query: $q) {
+    #     __typename
+    #     ... on Todo {
+    #       id
+    #       subject
+    #     }
+    #     ... on Item {
+    #       id
+    #       title
+    #     }
+    #   }
+    # }
+    field :search, [Types::SearchResultUnion], null: false do
+      description 'Search todos and items'
+      argument :query, String, required: true
     end
 
     def todos(status: nil)
       scope = ::Todo.includes(:items)
       scope = scope.where(status: status).references(:statuses) if status.present?
       scope
+    end
+
+    def search(query:)
+      q = "%#{query.to_s.downcase}%"
+      todos = ::Todo.where('LOWER(subject) LIKE ?', q)
+      items = ::Item.where('LOWER(title) LIKE ?', q)
+
+      todos + items
     end
   end
 end

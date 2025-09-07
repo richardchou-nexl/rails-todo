@@ -11,44 +11,13 @@ import {
 } from "ag-grid-community"
 import { AllEnterpriseModule } from "ag-grid-enterprise"
 import { useTodosLazyQuery, TodoFragment } from "../__generated__/types"
+import { createServerSideDatasource, createFakeServer } from "../helpers"
 
 ModuleRegistry.registerModules([
   AllEnterpriseModule,
   AllCommunityModule,
   ...(process.env.NODE_ENV !== "production" ? [ValidationModule] : [])
 ])
-
-const createServerSideDatasource: (server: any) => IServerSideDatasource = (server: any) => {
-  return {
-    getRows: (params) => {
-      console.log("[Datasource] - rows requested by grid: ", params.request)
-      // get data for request from our fake server
-      const response = server.getData(params.request)
-      // simulating real server call with a 500ms delay
-      setTimeout(() => {
-        if (response.success) {
-          // supply rows for requested block to grid
-          params.success({ rowData: response.rows })
-        } else {
-          params.fail()
-        }
-      }, 500)
-    }
-  }
-}
-
-function createFakeServer(allData: TodoFragment[]) {
-  return {
-    getData: (request: IServerSideGetRowsRequest) => {
-      // in this simplified fake server all rows are contained in an array
-      const requestedRows = allData.slice(request.startRow, request.endRow)
-      return {
-        success: true,
-        rows: requestedRows
-      }
-    }
-  }
-}
 
 const Todos = () => {
   const rowModelType = "serverSide"

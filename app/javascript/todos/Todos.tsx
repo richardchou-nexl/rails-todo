@@ -10,6 +10,7 @@ import {
   AllCommunityModule
 } from "ag-grid-community"
 import { AllEnterpriseModule } from "ag-grid-enterprise"
+import { useTodosLazyQuery, TodoFragment } from "../__generated__/types"
 
 ModuleRegistry.registerModules([
   AllEnterpriseModule,
@@ -36,7 +37,7 @@ const createServerSideDatasource: (server: any) => IServerSideDatasource = (serv
   }
 }
 
-function createFakeServer(allData: any[]) {
+function createFakeServer(allData: TodoFragment[]) {
   return {
     getData: (request: IServerSideGetRowsRequest) => {
       // in this simplified fake server all rows are contained in an array
@@ -49,32 +50,16 @@ function createFakeServer(allData: any[]) {
   }
 }
 
-export interface IOlympicData {
-  athlete: string
-  age: number
-  country: string
-  year: number
-  date: string
-  sport: string
-  gold: number
-  silver: number
-  bronze: number
-  total: number
-}
-
 const Todos = () => {
   const rowModelType = "serverSide"
   const containerStyle = useMemo(() => ({ width: "100%", height: 500 }), [])
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), [])
+  const [getTodos, { data: todosData }] = useTodosLazyQuery()
 
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
-    { field: "athlete", minWidth: 220 },
-    { field: "country", minWidth: 200 },
-    { field: "year" },
-    { field: "sport", minWidth: 200 },
-    { field: "gold" },
-    { field: "silver" },
-    { field: "bronze" }
+    { field: "id", minWidth: 220 },
+    { field: "subject", minWidth: 200 },
+    { field: "status" }
   ])
 
   const defaultColDef = useMemo<ColDef>(() => {
@@ -87,18 +72,14 @@ const Todos = () => {
     }
   }, [])
 
-  const onGridReady = useCallback((params: GridReadyEvent) => {
-    fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-      .then((resp) => resp.json())
-      .then((data: IOlympicData[]) => {
-        // setup the fake server with entire dataset
-        const fakeServer = createFakeServer(data)
-        // create datasource with a reference to the fake server
-        const datasource = createServerSideDatasource(fakeServer)
-        // register the datasource with the grid
-        params.api!.setGridOption("serverSideDatasource", datasource)
-      })
-  }, [])
+  const onGridReady = async (params: GridReadyEvent) => {
+    getTodos().then((data) => {
+      const todos = data.data?.todos || []
+      const fakeServer = createFakeServer(todos)
+      const datasource = createServerSideDatasource(fakeServer)
+      params.api!.setGridOption("serverSideDatasource", datasource)
+    })
+  }
 
   return (
     <div style={containerStyle}>

@@ -1,9 +1,5 @@
 query Todos($status: TodoStatusEnum) {
   todos(status: $status) {
     ...Todo
-
-    items	{
-      ...ItemRow
-    }
   }
 }

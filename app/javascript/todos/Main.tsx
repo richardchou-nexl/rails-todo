@@ -9,14 +9,11 @@ import {
   ValidationModule,
   AllCommunityModule
 } from "ag-grid-community"
-import { AllEnterpriseModule } from "ag-grid-enterprise"
-import { ApolloClient, InMemoryCache } from "@apollo/client"
-import { ApolloProvider } from "@apollo/client/react"
-import { HttpLink } from "@apollo/client/link/http"
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client"
 import Todos from "./Todos"
 
 const client = new ApolloClient({
-  link: new HttpLink({ uri: "http://localhost:3000/graphql" }),
+  uri: "http://localhost:3000/graphql",
   cache: new InMemoryCache()
 })
 

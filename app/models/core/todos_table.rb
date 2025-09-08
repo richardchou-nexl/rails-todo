@@ -6,7 +6,10 @@ module Core
 
     sig { override.returns(Tables::TableRows) }
     def rows
-      Tables::ActiveRecordTableRows.new(base_scope: base_scope)
+      Tables::ActiveRecordTableRows.new(
+        base_scope: base_scope,
+        base_class: Todo
+      )
     end
 
     sig { returns(ActiveRecord::Relation) }

@@ -6,6 +6,7 @@ module Tables
     include Tables::TableRows
 
     const :base_scope, ActiveRecord::Relation
+    const :base_class, T.class_of(ApplicationRecord)
 
     sig { override.returns(T::Array[TableRow]) }
     def entries

@@ -36,6 +36,15 @@ module Types
       argument :query, String, required: true
     end
 
+    class TableRowEntriesType < ::Types::BaseObject
+      field :entries, [Types::TableRowType], null: false
+    end
+
+    field :table_rows, TableRowEntriesType, null: false do
+      description 'Table rows'
+      argument :source, Inputs::TableSourceInput, required: true
+    end
+
     def todos(status: nil)
       scope = ::Todo.includes(:items)
       scope = scope.where(status: status).references(:statuses) if status.present?

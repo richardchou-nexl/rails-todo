@@ -5,6 +5,8 @@ module Tables
     extend T::Sig
     include Tables::TableRows
 
+    const :base_scope, ActiveRecord::Relation
+
     sig { override.returns(T::Array[TableRow]) }
     def entries
       binding.pry

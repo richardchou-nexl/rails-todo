@@ -58,5 +58,13 @@ module Types
 
       todos + items
     end
+
+    def table_rows(source:)
+      table = source.table_implementation
+      result = table.rows
+
+      binding.pry
+      { entries: result.entries }
+    end
   end
 end

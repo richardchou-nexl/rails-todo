@@ -6,7 +6,7 @@ module Inputs
     argument :list_uid, GraphQL::Types::ID, required: false
 
     def table_implementation
-      T.cast(row_type, T.class_of(Tables::TableImplementation))
+      T.cast(row_type.constantize, T.class_of(Tables::TableImplementation))
        .new(list_uid: list_uid)
     end
   end

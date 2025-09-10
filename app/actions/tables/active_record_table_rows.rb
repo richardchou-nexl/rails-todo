@@ -11,27 +11,23 @@ module Tables
     sig { override.returns(T::Array[TableRow]) }
     def entries
       scope.map do |record|
-        TableRow.new(
-          id: record.id.to_s,
-          cells: selected.map do |column|
-            Tables::TableCell.new(
-              id: "#{record.id}_#{column.id}",
-              column: column,
-              value: record.public_send(column.id).to_s
-            )
-          end
-        )
+        value_extractor.record_to_row(record: record)
       end
+    end
+
+    sig { returns(ValueExtractor) }
+    def value_extractor
+      @value_extractor ||= T.let(Tables::ValueExtractor.new(selected: selected), T.nilable(Tables::ValueExtractor))
     end
 
     sig { override.returns(Integer) }
     def total_count
-      binding.pry
+      99
     end
 
     sig { override.returns(Integer) }
     def total_pages
-      binding.pry
+      99
     end
 
     private

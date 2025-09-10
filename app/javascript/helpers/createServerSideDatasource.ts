@@ -1,8 +1,8 @@
-import { IServerSideDatasource } from "ag-grid-community"
+import { IServerSideDatasource, IServerSideGetRowsParams } from "ag-grid-community"
 
 export const createServerSideDatasource: (server: any) => IServerSideDatasource = (server: any) => {
   return {
-    getRows: (params) => {
+    getRows: (params: IServerSideGetRowsParams) => {
       console.log("[Datasource] - rows requested by grid: ", params.request)
       // get data for request from our fake server
       const response = server.getData(params.request)

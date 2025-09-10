@@ -63,7 +63,6 @@ module Types
       table = source.table_implementation
       result = table.rows
 
-      binding.pry
       { entries: result.entries }
     end
   end

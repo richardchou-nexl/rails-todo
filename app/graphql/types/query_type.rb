@@ -61,9 +61,18 @@ module Types
 
     def table_rows(source:)
       table = source.table_implementation
-      result = table.rows
+      result = table.rows(selected: selected)
 
       { entries: result.entries }
+    end
+
+    private
+
+    def selected
+      [
+        Tables::Column.new(id: 'id', name: 'ID'),
+        Tables::Column.new(id: 'subject', name: 'Subject')
+      ]
     end
   end
 end

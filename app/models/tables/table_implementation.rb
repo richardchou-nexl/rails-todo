@@ -12,9 +12,9 @@ module Tables
     abstract!
 
     sig do
-      abstract.returns(TableRows)
+      abstract.params(selected: T::Array[Tables::Column]).returns(TableRows)
     end
-    def rows; end
+    def rows(selected:); end
 
     sig do
       params(list_uid: T.nilable(String)).void

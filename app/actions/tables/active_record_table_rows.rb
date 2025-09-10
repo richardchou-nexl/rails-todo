@@ -7,6 +7,8 @@ module Tables
 
     const :base_scope, ActiveRecord::Relation
     const :base_class, T.class_of(ApplicationRecord)
+    const :value_extractor_class, T.class_of(ValueExtractor), factory: -> { Tables::ValueExtractor }
+    const :selected, T::Array[Tables::Column]
 
     sig { override.returns(T::Array[TableRow]) }
     def entries
@@ -17,7 +19,7 @@ module Tables
 
     sig { returns(ValueExtractor) }
     def value_extractor
-      @value_extractor ||= T.let(Tables::ValueExtractor.new(selected: selected), T.nilable(Tables::ValueExtractor))
+      @value_extractor ||= T.let(value_extractor_class.new(selected: selected), T.nilable(Tables::ValueExtractor))
     end
 
     sig { override.returns(Integer) }

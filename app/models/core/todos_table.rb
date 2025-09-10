@@ -4,11 +4,12 @@ module Core
   class TodosTable < Tables::TableImplementation
     extend T::Sig
 
-    sig { override.returns(Tables::TableRows) }
-    def rows
+    sig { override.params(selected: T::Array[Tables::Column]).returns(Tables::TableRows) }
+    def rows(selected:)
       Tables::ActiveRecordTableRows.new(
         base_scope: base_scope,
-        base_class: Todo
+        base_class: Todo,
+        selected: selected
       )
     end
 

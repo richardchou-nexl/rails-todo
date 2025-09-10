@@ -43,13 +43,5 @@ module Tables
     def scope
       @scope ||= T.let(build_scope, T.nilable(ActiveRecord::Relation))
     end
-
-    sig { returns(T::Array[Column]) }
-    def selected
-      [
-        Tables::Column.new(id: 'id', name: 'ID'),
-        Tables::Column.new(id: 'subject', name: 'Subject')
-      ]
-    end
   end
 end

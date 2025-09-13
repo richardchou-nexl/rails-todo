@@ -1,31 +1,21 @@
 # typed: strict
 
 module Types
-  class TodoResultType < Types::BaseObject
-    field :id, ID, null: false
-    field :subject, String, null: false
-  end
-
-  class ItemResultType < Types::BaseObject
-    field :id, ID, null: false
-    field :title, String, null: false
-  end
-
   class SearchResultUnion < Types::BaseUnion
     extend T::Sig
 
-    possible_types TodoResultType, ItemResultType
+    possible_types TodoType, ItemType
 
     sig do
       params(object: T.untyped,
-             _ctx: T.untyped).returns(T.any(T.class_of(TodoResultType), T.class_of(ItemResultType)))
+             _ctx: T.untyped).returns(T.any(T.class_of(TodoType), T.class_of(ItemType)))
     end
     def self.resolve_type(object, _ctx)
       case object
       when ::Todo
-        TodoResultType
+        TodoType
       when ::Item
-        ItemResultType
+        ItemType
       else
         raise "Unexpected SearchResult type: #{object.class.name}"
       end

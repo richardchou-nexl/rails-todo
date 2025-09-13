@@ -18,19 +18,6 @@ module Types
       argument :status, Types::TodoStatusEnum, required: false
     end
 
-    # query Search($q: String!) {
-    #   search(query: $q) {
-    #     __typename
-    #     ... on Todo {
-    #       id
-    #       subject
-    #     }
-    #     ... on Item {
-    #       id
-    #       title
-    #     }
-    #   }
-    # }
     field :search, [Types::SearchResultUnion], null: false do
       description 'Search todos and items'
       argument :query, String, required: true

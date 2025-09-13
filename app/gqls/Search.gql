@@ -1,11 +1,11 @@
 query Search($q: String!) {
   search(query: $q) {
     __typename
-    ... on Todo {
+    ... on TodoResult {
       id
       subject
     }
-    ... on Item {
+    ... on ItemResult {
       id
       title
     }

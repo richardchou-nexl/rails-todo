@@ -5,7 +5,7 @@ module Tables
     extend T::Sig
 
     const :id, String
-    const :value, String
+    const :values, T::Array[T.untyped]
     const :column, Column
   end
 end

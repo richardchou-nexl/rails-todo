@@ -12,6 +12,7 @@ import {
 import { AllEnterpriseModule } from "ag-grid-enterprise"
 import { useTodosLazyQuery, TodoFragment } from "../__generated__/types"
 import { createServerSideDatasource, createFakeServer } from "../helpers"
+import { ApiConnections } from "../api_connections/ApiConnections"
 
 ModuleRegistry.registerModules([
   AllEnterpriseModule,
@@ -55,6 +56,7 @@ const Todos = () => {
       <div style={gridStyle}>
         <AgGridReact columnDefs={columnDefs} defaultColDef={defaultColDef} rowModelType={rowModelType} onGridReady={onGridReady} />
       </div>
+      <ApiConnections />
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { useMemo, useState } from "react"
 import { ModalHandler } from "../common/ModalHandler"
 import { Button, ButtonCategory } from "../common/Button"
 import { Form, Formik, FormikHelpers } from "formik"
@@ -6,6 +6,8 @@ import { Box, CircularProgress, Divider, Typography } from "@mui/material"
 import { FormikTextField } from "../common/FormikTextField"
 import * as Yup from "yup"
 import { FormikBasicSelect } from "../common/FormikBasicSelect"
+import { KeyValueListField } from "../common/KeyValueListField"
+import { IKeyValueItem } from "../common/KeyValueListField"
 
 interface ICreateApiConnectionProps {
   children?: React.ReactElement
@@ -36,6 +38,9 @@ export interface ICreateApiConnectionValues {
 const MODAL_WIDTH = 736
 
 export const CreateApiConnection: React.FC<ICreateApiConnectionProps> = ({ children }) => {
+  const [jsonPathColumnPairs, setJsonPathColumnPairs] = useState([{ jsonPath: "", column: { id: "", label: "", value: "" } }])
+  const [headers, setHeaders] = useState<IKeyValueItem[]>([])
+
   const methodOptions: IOptionObject[] = useMemo(
     () => [
       { id: "GET", label: "GET", value: HttpMethodEnum.Get },
@@ -84,6 +89,37 @@ export const CreateApiConnection: React.FC<ICreateApiConnectionProps> = ({ child
                 <Divider sx={{ my: 1 }} />
                 <FormikTextField name="body" label="Body" multiline rows={7} />
                 <Divider sx={{ my: 1 }} />
+                {/*
+                <KeyValueListField
+                  items={jsonPathColumnPairs.map((p) => ({
+                    key: p.jsonPath,
+                    value: p.column
+                  }))}
+                  setItems={(items) =>
+                    setJsonPathColumnPairs(
+                      items.map((item) => ({
+                        jsonPath: item.key,
+                        column: item.value
+                      }))
+                    )
+                  }
+                  leftLabel="JSON Path"
+                  rightLabel="Column"
+                  buttonLabel="Add JSON Mapping"
+                  columnOptions={[]}
+                  minimumItems={0}
+                  placeholder={"Enter JSON Path"}
+                />
+                */}
+
+                <KeyValueListField
+                  items={headers}
+                  setItems={setHeaders}
+                  leftLabel="Header Name"
+                  rightLabel="Header Value"
+                  buttonLabel="Add Header"
+                  placeholder={"Enter Header Name"}
+                />
               </Box>
             </Box>
           </Form>

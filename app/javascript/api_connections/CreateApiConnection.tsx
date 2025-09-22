@@ -49,6 +49,66 @@ export const CreateApiConnection: React.FC<ICreateApiConnectionProps> = ({ child
     []
   )
 
+  const options = [
+    {
+      id: "1",
+      name: "value 1",
+      updateable: true
+    },
+    {
+      id: "2",
+      name: "value 2",
+      updateable: true
+    },
+    {
+      id: "3",
+      name: "value 3",
+      updateable: false
+    },
+    {
+      id: "4",
+      name: "value 4",
+      updateable: true
+    },
+    {
+      id: "5",
+      name: "value 5",
+      updateable: true
+    },
+    {
+      id: "6",
+      name: "value 6",
+      updateable: true
+    },
+    {
+      id: "7",
+      name: "value 7",
+      updateable: false
+    },
+    {
+      id: "8",
+      name: "value 8",
+      updateable: true
+    },
+    {
+      id: "9",
+      name: "value 9",
+      updateable: false
+    },
+    {
+      id: "10",
+      name: "value 10",
+      updateable: true
+    }
+  ]
+  const columnOptions = options
+    .filter((option) => option.updateable)
+    .map((option) => ({
+      id: option.id,
+      label: option.name,
+      value: option.id
+    }))
+
   const initialValues = {
     name: "",
     url: "",
@@ -89,28 +149,27 @@ export const CreateApiConnection: React.FC<ICreateApiConnectionProps> = ({ child
                 <Divider sx={{ my: 1 }} />
                 <FormikTextField name="body" label="Body" multiline rows={7} />
                 <Divider sx={{ my: 1 }} />
-                {/*
+
                 <KeyValueListField
                   items={jsonPathColumnPairs.map((p) => ({
                     key: p.jsonPath,
                     value: p.column
                   }))}
-                  setItems={(items) =>
+                  setItems={(items) => {
                     setJsonPathColumnPairs(
                       items.map((item) => ({
                         jsonPath: item.key,
                         column: item.value
                       }))
                     )
-                  }
+                  }}
                   leftLabel="JSON Path"
                   rightLabel="Column"
                   buttonLabel="Add JSON Mapping"
-                  columnOptions={[]}
+                  columnOptions={columnOptions}
                   minimumItems={0}
                   placeholder={"Enter JSON Path"}
                 />
-                */}
 
                 <KeyValueListField
                   items={headers}

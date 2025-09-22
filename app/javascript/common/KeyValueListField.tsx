@@ -3,13 +3,15 @@ import { Button, ButtonCategory } from "./Button"
 import { Box, Grid, Divider, IconButton } from "@mui/material"
 import { Add, DeleteOutline } from "@mui/icons-material"
 import { TextField } from "./TextField"
+import { FormikBasicSelect } from "./FormikBasicSelect"
+import { ColumnSelect } from "./ColumnSelect"
 
 export interface IKeyValueItem {
   key: string
   value: any
 }
 
-interface IColumnOption {
+export interface IColumnOption {
   id: string
   label: string
   value: string
@@ -60,27 +62,41 @@ export const KeyValueListField: React.FC<IKeyValueListFieldProps> = ({
               />
             </Grid>
             <Grid item xs={6}>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <TextField
-                  uniqueId={`${rightLabel.replace(/\s+/g, "_").toLowerCase()}_${index}`}
-                  label={rightLabel}
-                  value={pair.value}
-                  setValue={(value) => {
+              {columnOptions.length > 0 ? (
+                <ColumnSelect
+                  columnOptions={columnOptions}
+                  suffixComponent={<></>}
+                  onSelect={(option) => {
                     const newItems = [...items]
                     if (newItems[index]) {
-                      newItems[index].value = value
+                      newItems[index].value = option
                       setItems(newItems)
                     }
                   }}
                 />
-                {index > 0 ? (
-                  <IconButton onClick={() => onRemove(index)}>
-                    <DeleteOutline fontSize="small" />
-                  </IconButton>
-                ) : (
-                  <Box width={52} />
-                )}
-              </Box>
+              ) : (
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <TextField
+                    uniqueId={`${rightLabel.replace(/\s+/g, "_").toLowerCase()}_${index}`}
+                    label={rightLabel}
+                    value={pair.value}
+                    setValue={(value) => {
+                      const newItems = [...items]
+                      if (newItems[index]) {
+                        newItems[index].value = value
+                        setItems(newItems)
+                      }
+                    }}
+                  />
+                  {index > 0 ? (
+                    <IconButton onClick={() => onRemove(index)}>
+                      <DeleteOutline fontSize="small" />
+                    </IconButton>
+                  ) : (
+                    <Box width={52} />
+                  )}
+                </Box>
+              )}
             </Grid>
           </Grid>
         </React.Fragment>

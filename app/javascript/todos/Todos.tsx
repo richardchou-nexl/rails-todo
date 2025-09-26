@@ -36,19 +36,19 @@ const Todos = () => {
     return {
       flex: 1,
       minWidth: 100,
-      sortable: false,
+      sortable: true,
       filter: true,
       resizable: true
     }
   }, [])
 
   const onGridReady = async (params: GridReadyEvent) => {
-    getTodos().then((data) => {
-      const todos = data.data?.todos || []
-      const fakeServer = createFakeServer(todos)
-      const datasource = createServerSideDatasource(fakeServer)
-      params.api!.setGridOption("serverSideDatasource", datasource)
-    })
+    //getTodos().then((data) => {
+    //const todos = data.data?.todos || []
+    const fakeServer = createFakeServer({ getTodos })
+    const datasource = createServerSideDatasource(fakeServer)
+    params.api!.setGridOption("serverSideDatasource", datasource)
+    //})
   }
 
   return (

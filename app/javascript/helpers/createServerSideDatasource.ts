@@ -3,7 +3,6 @@ import { IServerSideDatasource, IServerSideGetRowsParams } from "ag-grid-communi
 export const createServerSideDatasource: (server: any) => IServerSideDatasource = (server: any) => {
   return {
     getRows: (params: IServerSideGetRowsParams) => {
-      console.log("[Datasource] - rows requested by grid: ", params.request)
       // get data for request from our fake server
       const response = server.getData(params.request)
       // simulating real server call with a 500ms delay

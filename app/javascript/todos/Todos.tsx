@@ -1,18 +1,10 @@
-import React, { useCallback, useMemo, useState } from "react"
+import React, { useCallback, useMemo, useRef, useState } from "react"
 import { AgGridReact } from "ag-grid-react"
-import {
-  ColDef,
-  GridReadyEvent,
-  IServerSideDatasource,
-  IServerSideGetRowsRequest,
-  ModuleRegistry,
-  ValidationModule,
-  AllCommunityModule
-} from "ag-grid-community"
+import { ColDef, GridReadyEvent, SortChangedEvent, ModuleRegistry, ValidationModule, AllCommunityModule } from "ag-grid-community"
 import { AllEnterpriseModule } from "ag-grid-enterprise"
 import { useTodosLazyQuery, TodoFragment } from "../__generated__/types"
-import { createServerSideDatasource, createFakeServer } from "../helpers"
 import { ApiConnections } from "../api_connections/ApiConnections"
+import { useServerSideDatasource } from "../hooks"
 
 ModuleRegistry.registerModules([
   AllEnterpriseModule,
@@ -42,16 +34,35 @@ const Todos = () => {
     }
   }, [])
 
+  const dataSource = useServerSideDatasource({ getTodos })
+  const gridRef = useRef<AgGridReact>(null)
+
   const onGridReady = async (params: GridReadyEvent) => {
-    const fakeServer = createFakeServer({ getTodos })
-    const datasource = createServerSideDatasource(fakeServer)
-    params.api!.setGridOption("serverSideDatasource", datasource)
+    //const fakeServer = createFakeServer({ getTodos })
+    //const datasource = createServerSideDatasource(fakeServer)
+    //params.api!.setGridOption("serverSideDatasource", datasource)
+    const gridApi = gridRef.current?.api
+    if (gridApi) {
+      gridApi.setGridOption("serverSideDatasource", dataSource)
+    }
+  }
+
+  const onSortChanged = (event: SortChangedEvent) => {
+    const columnState = event.api!.getColumnState()
+    // save columnState to db
   }
 
   return (
     <div style={containerStyle}>
       <div style={gridStyle}>
-        <AgGridReact columnDefs={columnDefs} defaultColDef={defaultColDef} rowModelType={rowModelType} onGridReady={onGridReady} />
+        <AgGridReact
+          onSortChanged={onSortChanged}
+          columnDefs={columnDefs}
+          defaultColDef={defaultColDef}
+          rowModelType={rowModelType}
+          onGridReady={onGridReady}
+          ref={gridRef}
+        />
       </div>
       <ApiConnections />
     </div>

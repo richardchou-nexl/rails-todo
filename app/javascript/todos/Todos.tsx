@@ -2,7 +2,8 @@ import React, { useCallback, useMemo, useRef, useState } from "react"
 import { AgGridReact } from "ag-grid-react"
 import { ColDef, GridReadyEvent, SortChangedEvent, ModuleRegistry, ValidationModule, AllCommunityModule } from "ag-grid-community"
 import { AllEnterpriseModule } from "ag-grid-enterprise"
-import { useTodosLazyQuery, TodoFragment } from "../__generated__/types"
+import { useLazyQuery } from "@apollo/client"
+import { TodosQuery, TodosQueryVariables, TodosDocument } from "../__generated__/types"
 import { ApiConnections } from "../api_connections/ApiConnections"
 import { useServerSideDatasource } from "../hooks"
 
@@ -16,7 +17,7 @@ const Todos = () => {
   const rowModelType = "serverSide"
   const containerStyle = useMemo(() => ({ width: "100%", height: 500 }), [])
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), [])
-  const [getTodos] = useTodosLazyQuery()
+  const [getTodos] = useLazyQuery<TodosQuery, TodosQueryVariables>(TodosDocument)
 
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "id", minWidth: 220 },

@@ -1,5 +1,5 @@
 import { IServerSideGetRowsParams } from "ag-grid-community"
-import { TodosQuery, Exact, InputMaybe, TodoStatusEnum } from "../__generated__/types"
+import { TodosQuery, Exact, InputMaybe, TodoStatusEnum, TodosQueryVariables } from "../__generated__/types"
 import { LazyQueryExecFunction } from "@apollo/client"
 
 interface ICreateServerSideDatasourceProps {
@@ -10,9 +10,16 @@ export const useServerSideDatasource = ({ getTodos }: ICreateServerSideDatasourc
   return {
     getRows: async (params: IServerSideGetRowsParams) => {
       const sortModel = params.request.sortModel
-      console.log("sortModel", sortModel)
+      const ordering = sortModel.map((sort: any) => ({
+        orderOnUid: sort.colId,
+        direction: sort.sort.toUpperCase()
+      }))
 
-      const response = await getTodos()
+      const variables: TodosQueryVariables = {
+        status: TodoStatusEnum.NotStarted
+      }
+
+      const response = await getTodos({ variables })
 
       // simulating real server call with a 500ms delay
       setTimeout(() => {

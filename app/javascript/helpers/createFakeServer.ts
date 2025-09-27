@@ -12,15 +12,11 @@ interface ICreateFakeServerProps {
 }
 
 export const createFakeServer = ({ getTodos }: ICreateFakeServerProps): IFakeServer => {
-  //const [getTodos, { data: todosData }] = useTodosLazyQuery()
-  //fetch("https://www.ag-grid.com/example-assets/olympic-winners.json")
-
   return {
     getData: (request: IServerSideGetRowsRequest) => {
       console.log("[Datasource] - rows requested by grid: ", request)
-      // in this simplified fake server all rows are contained in an array
+
       const requestedRows = getTodos().then((data) => {
-        //return data.data?.todos.slice(request.startRow, request.endRow)
         return data.data?.todos || []
       })
 

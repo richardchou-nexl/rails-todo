@@ -24,7 +24,7 @@ const Todos = () => {
   const rowModelType = "serverSide"
   const containerStyle = useMemo(() => ({ width: "100%", height: 500 }), [])
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), [])
-  const [getTodos, { data: todosData }] = useTodosLazyQuery()
+  const [getTodos] = useTodosLazyQuery()
 
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "id", minWidth: 220 },
@@ -43,12 +43,9 @@ const Todos = () => {
   }, [])
 
   const onGridReady = async (params: GridReadyEvent) => {
-    //getTodos().then((data) => {
-    //const todos = data.data?.todos || []
     const fakeServer = createFakeServer({ getTodos })
     const datasource = createServerSideDatasource(fakeServer)
     params.api!.setGridOption("serverSideDatasource", datasource)
-    //})
   }
 
   return (

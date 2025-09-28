@@ -34,6 +34,8 @@ module Types
     end
 
     def todos(status: nil, ordering: nil)
+      binding.pry
+
       scope = ::Todo.includes(:items)
       scope = scope.where(status: status).references(:statuses) if status.present?
       scope

@@ -1,5 +1,5 @@
-query Todos($status: TodoStatusEnum) {
-  todos(status: $status) {
+query Todos($status: TodoStatusEnum, $ordering: [OrderingInput!]) {
+  todos(status: $status, ordering: $ordering) {
     ...Todo
   }
 }

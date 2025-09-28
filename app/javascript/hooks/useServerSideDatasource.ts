@@ -1,9 +1,9 @@
 import { IServerSideGetRowsParams } from "ag-grid-community"
-import { TodosQuery, Exact, InputMaybe, TodoStatusEnum, TodosQueryVariables } from "../__generated__/types"
+import { TodosQuery, TodoStatusEnum, QueryTodosArgs } from "../__generated__/types"
 import { LazyQueryExecFunction } from "@apollo/client"
 
 interface ICreateServerSideDatasourceProps {
-  getTodos: LazyQueryExecFunction<TodosQuery, Exact<{ status?: InputMaybe<TodoStatusEnum> | undefined }>>
+  getTodos: LazyQueryExecFunction<TodosQuery, QueryTodosArgs>
 }
 
 export const useServerSideDatasource = ({ getTodos }: ICreateServerSideDatasourceProps) => {
@@ -15,8 +15,9 @@ export const useServerSideDatasource = ({ getTodos }: ICreateServerSideDatasourc
         direction: sort.sort.toUpperCase()
       }))
 
-      const variables: TodosQueryVariables = {
-        status: TodoStatusEnum.NotStarted
+      const variables: QueryTodosArgs = {
+        status: TodoStatusEnum.NotStarted,
+        ordering
       }
 
       const response = await getTodos({ variables })

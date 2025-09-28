@@ -1,6 +1,6 @@
 import { TodoFragment } from "../__generated__/types"
 import { IServerSideGetRowsRequest } from "ag-grid-community"
-import { TodosQuery, Exact, InputMaybe, TodoStatusEnum } from "../__generated__/types"
+import { TodosQuery, QueryTodosArgs, TodoStatusEnum } from "../__generated__/types"
 import { LazyQueryExecFunction } from "@apollo/client"
 
 interface IFakeServer {
@@ -8,7 +8,7 @@ interface IFakeServer {
 }
 
 interface ICreateFakeServerProps {
-  getTodos: LazyQueryExecFunction<TodosQuery, Exact<{ status?: InputMaybe<TodoStatusEnum> | undefined }>>
+  getTodos: LazyQueryExecFunction<TodosQuery, QueryTodosArgs>
 }
 
 export const createFakeServer = ({ getTodos }: ICreateFakeServerProps): IFakeServer => {

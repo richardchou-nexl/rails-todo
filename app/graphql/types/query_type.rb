@@ -15,7 +15,8 @@ module Types
     # }
     field :todos, [Types::TodoType], null: false do
       description 'List of todos'
-      argument :status, Types::TodoStatusEnum, required: false
+      argument :status, TodoStatusEnum, required: false
+      argument :ordering, [Inputs::OrderingInput], required: false
     end
 
     field :search, [Types::SearchResultUnion], null: false do
@@ -32,7 +33,7 @@ module Types
       argument :source, Inputs::TableSourceInput, required: true
     end
 
-    def todos(status: nil)
+    def todos(status: nil, ordering: nil)
       scope = ::Todo.includes(:items)
       scope = scope.where(status: status).references(:statuses) if status.present?
       scope

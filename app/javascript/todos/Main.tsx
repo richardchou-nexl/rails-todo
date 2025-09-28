@@ -11,6 +11,7 @@ import {
 } from "ag-grid-community"
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client"
 import Todos from "./Todos"
+import { ViewProvider } from "../context/ViewContext"
 
 const client = new ApolloClient({
   uri: "http://localhost:3000/graphql",
@@ -21,7 +22,9 @@ const Main = () => {
   return (
     <React.StrictMode>
       <ApolloProvider client={client}>
-        <Todos />
+        <ViewProvider>
+          <Todos />
+        </ViewProvider>
       </ApolloProvider>
     </React.StrictMode>
   )

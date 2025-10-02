@@ -11,6 +11,10 @@ module Core
       COLUMN_DEFINITIONS_PATH
     end
 
+    sig { override.returns(T::Array[Tables::Column]) }
+    def columns
+    end
+
     sig { override.params(selected: T::Array[Tables::Column]).returns(Tables::TableRows) }
     def rows(selected:)
       Tables::ActiveRecordTableRows.new(

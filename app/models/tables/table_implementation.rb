@@ -12,7 +12,7 @@ module Tables
     abstract!
 
     sig do
-      abstract.params(selected: T::Array[Tables::Column]).returns(TableRows)
+      abstract.params(selected: T::Array[Column]).returns(TableRows)
     end
     def rows(selected:); end
 
@@ -25,5 +25,8 @@ module Tables
 
     sig { abstract.returns(Pathname) }
     def column_definitions_path; end
+
+    sig { abstract.returns(T::Array[Column]) }
+    def columns; end
   end
 end

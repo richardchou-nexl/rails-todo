@@ -1,12 +1,12 @@
 import { IServerSideGetRowsParams } from "ag-grid-community"
-import { TodosQuery, TodoStatusEnum, QueryTodosArgs } from "../__generated__/types"
+import { GetTableRowsQuery, GetTableRowsQueryVariables } from "../__generated__/types"
 import { LazyQueryExecFunction } from "@apollo/client"
 
 interface ICreateServerSideDatasourceProps {
-  getTodos: LazyQueryExecFunction<TodosQuery, QueryTodosArgs>
+  getTableRows: LazyQueryExecFunction<GetTableRowsQuery, GetTableRowsQueryVariables>
 }
 
-export const useServerSideDatasource = ({ getTodos }: ICreateServerSideDatasourceProps) => {
+export const useServerSideDatasource = ({ getTableRows }: ICreateServerSideDatasourceProps) => {
   return {
     getRows: async (params: IServerSideGetRowsParams) => {
       const sortModel = params.request.sortModel
@@ -15,17 +15,18 @@ export const useServerSideDatasource = ({ getTodos }: ICreateServerSideDatasourc
         direction: sort.sort.toUpperCase()
       }))
 
-      const variables: QueryTodosArgs = {
-        status: TodoStatusEnum.NotStarted,
-        ordering
+      const variables: GetTableRowsQueryVariables = {
+        source: {
+          rowType: "Core::TodosTable"
+        }
       }
 
-      const response = await getTodos({ variables })
+      const response = await getTableRows({ variables })
 
       // simulating real server call with a 500ms delay
       setTimeout(() => {
         if (response.data) {
-          const rows = response.data?.todos || []
+          const rows = response.data?.tableRows.entries || []
           params.success({ rowData: rows })
         } else {
           params.fail()

@@ -16,7 +16,7 @@ const Todos = () => {
   const rowModelType = "serverSide"
   const containerStyle = useMemo(() => ({ width: "100%", height: 500 }), [])
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), [])
-  const { getTodos, gridRef } = useView()
+  const { getTableRows, gridRef } = useView()
 
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "id", minWidth: 220 },
@@ -34,7 +34,7 @@ const Todos = () => {
     }
   }, [])
 
-  const dataSource = useServerSideDatasource({ getTodos })
+  const dataSource = useServerSideDatasource({ getTableRows })
 
   const onGridReady = async (params: GridReadyEvent) => {
     //const fakeServer = createFakeServer({ getTodos })

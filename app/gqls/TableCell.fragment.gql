@@ -1,0 +1,16 @@
+fragment TableCell on TableCell {
+  id
+  values {
+    ... on IntegerCell {
+      integer
+    }
+
+    ... on StringCell {
+      string
+    }
+  }
+  column {
+    id
+    name
+  }
+}

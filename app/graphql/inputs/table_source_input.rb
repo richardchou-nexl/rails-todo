@@ -5,6 +5,8 @@ module Inputs
     argument :row_type, String, required: true
     argument :list_uid, GraphQL::Types::ID, required: false
 
+    # returns instance class that implements TableImplementation
+    # for example, an instance of TodosTable
     def table_implementation
       T.cast(row_type.constantize, T.class_of(Tables::TableImplementation))
        .new(list_uid: list_uid)

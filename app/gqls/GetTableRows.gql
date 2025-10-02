@@ -1,0 +1,7 @@
+query GetTableRows($source: TableSourceInput!) {
+  tableRows(source: $source) {
+    entries {
+      ...TableRow
+    }
+  }
+}

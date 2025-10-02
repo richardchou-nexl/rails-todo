@@ -59,7 +59,8 @@ module Types
     def selected
       [
         Tables::Column.new(id: 'id', name: 'ID'),
-        Tables::Column.new(id: 'subject', name: 'Subject')
+        Tables::Column.new(id: 'subject', name: 'Subject'),
+        Tables::Column.new(id: 'status', name: 'Status')
       ]
     end
   end

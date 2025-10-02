@@ -4,6 +4,13 @@ module Core
   class TodosTable < Tables::TableImplementation
     extend T::Sig
 
+    COLUMN_DEFINITIONS_PATH = T.let(Pathname.new("#{__dir__}/todos_table.json").freeze, Pathname)
+
+    sig { override.returns(Pathname) }
+    def column_definitions_path
+      COLUMN_DEFINITIONS_PATH
+    end
+
     sig { override.params(selected: T::Array[Tables::Column]).returns(Tables::TableRows) }
     def rows(selected:)
       Tables::ActiveRecordTableRows.new(

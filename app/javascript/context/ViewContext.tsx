@@ -1,5 +1,5 @@
 import { useLazyQuery, LazyQueryExecFunction } from "@apollo/client"
-import { TodosQuery, TodosQueryVariables, TodosDocument } from "../__generated__/types"
+import { GetTableRowsQuery, GetTableRowsQueryVariables, GetTableRowsDocument, TodosQuery } from "../__generated__/types"
 import React, { useRef } from "react"
 import { AgGridReact } from "ag-grid-react"
 
@@ -8,16 +8,16 @@ interface IViewProviderProps {
 }
 
 interface IViewContext {
-  getTodos: LazyQueryExecFunction<TodosQuery, TodosQueryVariables>
+  getTableRows: LazyQueryExecFunction<GetTableRowsQuery, GetTableRowsQueryVariables>
   gridRef: React.RefObject<AgGridReact>
 }
 
-const uninitializedLazyQueryExec: LazyQueryExecFunction<TodosQuery, TodosQueryVariables> = () => {
-  throw new Error("getTodos is not initialized")
+const uninitializedLazyQueryExec: LazyQueryExecFunction<GetTableRowsQuery, GetTableRowsQueryVariables> = () => {
+  throw new Error("getTableRows is not initialized")
 }
 
 const INITIAL_STATE: IViewContext = {
-  getTodos: uninitializedLazyQueryExec,
+  getTableRows: uninitializedLazyQueryExec,
   gridRef: React.createRef<AgGridReact>()
 }
 
@@ -36,8 +36,10 @@ export const useView = () => {
 export const ViewContext = React.createContext<IViewContext>(INITIAL_STATE)
 
 export const ViewProvider: React.FC<IViewProviderProps> = ({ children }) => {
-  const [getTodos] = useLazyQuery<TodosQuery, TodosQueryVariables>(TodosDocument)
+  //const [getTodos] = useLazyQuery<TodosQuery, TodosQueryVariables>(TodosDocument)
+  const [getTableRows] = useLazyQuery<GetTableRowsQuery, GetTableRowsQueryVariables>(GetTableRowsDocument)
+
   const gridRef = useRef<AgGridReact>(null)
 
-  return <ViewContext.Provider value={{ getTodos, gridRef }}>{children}</ViewContext.Provider>
+  return <ViewContext.Provider value={{ getTableRows, gridRef }}>{children}</ViewContext.Provider>
 }

@@ -22,5 +22,8 @@ module Tables
     def initialize(list_uid: nil)
       @list_uid = list_uid
     end
+
+    sig { abstract.returns(Pathname) }
+    def column_definitions_path; end
   end
 end

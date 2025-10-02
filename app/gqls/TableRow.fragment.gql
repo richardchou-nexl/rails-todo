@@ -1,0 +1,6 @@
+fragment TableRow on TableRow {
+  id
+  cells {
+    ...TableCell
+  }
+}

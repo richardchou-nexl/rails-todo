@@ -28,5 +28,23 @@ module Tables
 
     sig { abstract.returns(T::Array[Column]) }
     def columns; end
+
+    protected
+
+    sig { params(table_name: String).returns(T::Array[Column]) }
+    def load_columns_from_definitions_path(table_name)
+      column_definitions = JSON.parse(File.read(column_definitions_path))
+      column_definitions.map { |column| build_column_from_definition(column, table_name) }
+    end
+
+    private
+
+    sig { params(column: T::Hash[String, T.untyped], table_name: String).returns(Tables::Column) }
+    def build_column_from_definition(column, table_name)
+      Tables::Column.new(
+        id: column.fetch('id'),
+        name: column.fetch('name')
+      )
+    end
   end
 end

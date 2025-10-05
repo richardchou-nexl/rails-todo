@@ -33,6 +33,10 @@ module Types
       argument :source, Inputs::TableSourceInput, required: true
     end
 
+    field :table_like_definition, Types::TableLikeDefinitionType, null: false do
+      argument :source, Inputs::TableSourceInput, required: true
+    end
+
     def todos(status: nil, ordering: nil)
       scope = ::Todo.includes(:items)
       scope = scope.where(status: status).references(:statuses) if status.present?
@@ -52,6 +56,10 @@ module Types
       result = table.rows(selected: selected)
 
       { entries: result.entries }
+    end
+
+    def table_like_definition
+      source.table_implementation
     end
 
     private

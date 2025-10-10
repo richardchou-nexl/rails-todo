@@ -33,7 +33,7 @@ module Types
       argument :source, Inputs::TableSourceInput, required: true
     end
 
-    field :table_like_definition, Types::TableLikeDefinitionType, null: false do
+    field :table_definition, TableDefinitionType, null: false do
       argument :source, Inputs::TableSourceInput, required: true
     end
 
@@ -58,7 +58,7 @@ module Types
       { entries: result.entries }
     end
 
-    def table_like_definition
+    def table_definition(source:)
       source.table_implementation
     end
 

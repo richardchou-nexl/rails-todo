@@ -5,6 +5,8 @@ import { AllEnterpriseModule } from "ag-grid-enterprise"
 import { ApiConnections } from "../api_connections/ApiConnections"
 import { useServerSideDatasource } from "../hooks"
 import { useView } from "../context/ViewContext"
+import { useDefinition } from "../context/DefinitionContext"
+import { transformColumnDefinitions } from "../helpers/transformColumnDefinitions"
 
 ModuleRegistry.registerModules([
   AllEnterpriseModule,
@@ -18,11 +20,18 @@ const Todos = () => {
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), [])
   const { getTableRows, gridRef } = useView()
 
+  /*
   const [columnDefs, setColumnDefs] = useState<ColDef[]>([
     { field: "id", minWidth: 220 },
     { field: "subject", minWidth: 200 },
     { field: "status" }
   ])
+  */
+  const { tableDefinition, definitionLoading } = useDefinition()
+
+  const columnDefs = useMemo(() => {
+    return transformColumnDefinitions(tableDefinition)
+  }, [tableDefinition])
 
   const defaultColDef = useMemo<ColDef>(() => {
     return {
@@ -62,6 +71,7 @@ const Todos = () => {
           rowModelType={rowModelType}
           onGridReady={onGridReady}
           ref={gridRef}
+          context={{ tableDefinition }}
         />
       </div>
       <ApiConnections />

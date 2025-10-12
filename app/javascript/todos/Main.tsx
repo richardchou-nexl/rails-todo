@@ -12,6 +12,7 @@ import {
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client"
 import Todos from "./Todos"
 import { ViewProvider } from "../context/ViewContext"
+import { DefinitionProvider } from "../context/DefinitionContext"
 
 const client = new ApolloClient({
   uri: "http://localhost:3000/graphql",
@@ -22,9 +23,11 @@ const Main = () => {
   return (
     <React.StrictMode>
       <ApolloProvider client={client}>
-        <ViewProvider>
-          <Todos />
-        </ViewProvider>
+        <DefinitionProvider source={{ rowType: "Core::TodosTable" }}>
+          <ViewProvider>
+            <Todos />
+          </ViewProvider>
+        </DefinitionProvider>
       </ApolloProvider>
     </React.StrictMode>
   )

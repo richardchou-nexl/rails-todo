@@ -1,0 +1,17 @@
+query GetTableDefinition($source: TableSourceInput!) {
+  tableDefinition(source: $source) {
+    ...TableDefinition
+  }
+}
+
+fragment TableDefinition on TableDefinition {
+  id
+  columns {
+    ...ColumnDefinition
+  }
+}
+
+fragment ColumnDefinition on Column {
+  id
+  name
+}

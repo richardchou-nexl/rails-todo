@@ -12,8 +12,8 @@ module Tables
 
     sig { override.returns(T::Array[TableRow]) }
     def entries
-      scope.map do |record|
-        value_extractor.record_to_row(record: record)
+      scope.map do |single_active_record|
+        value_extractor.record_to_row(single_active_record: single_active_record)
       end
     end
 

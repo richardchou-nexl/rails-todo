@@ -12,12 +12,12 @@ module Tables
       @selected = T.let(selected, T::Array[Tables::Column])
     end
 
-    sig { params(record: ApplicationRecord).returns(TableRow) }
-    def record_to_row(record:)
+    sig { params(single_active_record: ApplicationRecord).returns(TableRow) }
+    def record_to_row(single_active_record:)
       TableRow.new(
-        id: record.id.to_s,
+        id: single_active_record.id.to_s,
         cells: selected.map do |column|
-          column_to_cell(column: column, record: record)
+          column_to_cell(column: column, record: single_active_record)
         end
       )
     end
@@ -27,7 +27,7 @@ module Tables
       Tables::TableCell.new(
         id: "#{record.id}_#{column.id}",
         column: column,
-        values: Array.wrap(record.public_send(column.id).to_s)
+        values: Array.wrap([record.public_send(column.id).to_s, rand(1..99)])
       )
     end
   end

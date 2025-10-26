@@ -1,5 +1,5 @@
-query GetTableRows($source: TableSourceInput!) {
-  tableRows(source: $source) {
+query GetTableRows($source: TableSourceInput!, $ordering: [OrderingInput!]) {
+  tableRows(source: $source, ordering: $ordering) {
     entries {
       ...TableRow
     }

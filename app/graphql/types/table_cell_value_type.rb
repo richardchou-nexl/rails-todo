@@ -13,7 +13,6 @@ module Types
     possible_types IntegerCellType, StringCellType
 
     def self.resolve_type(object, _ctx)
-      # binding.pry
       case object
       when String
         StringCellType

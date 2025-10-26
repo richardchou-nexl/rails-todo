@@ -15,10 +15,13 @@ export const useServerSideDatasource = ({ getTableRows }: ICreateServerSideDatas
         direction: sort.sort.toUpperCase()
       }))
 
+      console.log("sortModel", sortModel)
+
       const variables: GetTableRowsQueryVariables = {
         source: {
           rowType: "Core::TodosTable"
-        }
+        },
+        ordering: ordering
       }
 
       const response = await getTableRows({ variables })

@@ -36,7 +36,6 @@ export const useView = () => {
 export const ViewContext = React.createContext<IViewContext>(INITIAL_STATE)
 
 export const ViewProvider: React.FC<IViewProviderProps> = ({ children }) => {
-  //const [getTodos] = useLazyQuery<TodosQuery, TodosQueryVariables>(TodosDocument)
   const [getTableRows] = useLazyQuery<GetTableRowsQuery, GetTableRowsQueryVariables>(GetTableRowsDocument)
 
   const gridRef = useRef<AgGridReact>(null)

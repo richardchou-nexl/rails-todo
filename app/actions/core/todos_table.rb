@@ -16,12 +16,16 @@ module Core
       @columns ||= T.let(mapped_base_columns, T.nilable(T::Array[Tables::Column]))
     end
 
-    sig { override.params(selected: T::Array[Tables::Column]).returns(Tables::TableRows) }
-    def rows(selected:)
+    sig do
+      override.params(selected: T::Array[Tables::Column],
+                      ordering: T::Array[SortOrder]).returns(Tables::TableRows)
+    end
+    def rows(selected:, ordering:)
       Tables::ActiveRecordTableRows.new(
         base_scope: base_scope,
         base_class: Todo,
-        selected: selected
+        selected:,
+        ordering:
       )
     end
 
@@ -43,7 +47,8 @@ module Core
       base_columns.map do |col|
         Tables::Column.new(
           id: col.id,
-          name: col.name
+          name: col.name,
+          orderable: col.orderable
         )
       end
     end

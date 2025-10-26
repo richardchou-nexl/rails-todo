@@ -1,14 +1,17 @@
 [
   {
     "id": "id",
-    "name": "ID"
+    "name": "ID",
+    "orderable": true
   },
   {
     "id": "status",
-    "name": "Status"
+    "name": "Status",
+    "orderable": true
   },
   {
     "id": "subject",
-    "name": "Subject"
+    "name": "Subject",
+    "orderable": true
   }
 ]

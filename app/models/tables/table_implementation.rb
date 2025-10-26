@@ -12,15 +12,15 @@ module Tables
     abstract!
 
     sig do
-      abstract.params(selected: T::Array[Column]).returns(TableRows)
+      abstract.params(selected: T::Array[Column], ordering: T::Array[SortOrder]).returns(TableRows)
     end
-    def rows(selected:); end
+    def rows(selected:, ordering:); end
 
     sig do
       params(list_uid: T.nilable(String)).void
     end
     def initialize(list_uid: nil)
-      @list_uid = list_uid
+      @list_uid = T.let(list_uid, T.nilable(String))
     end
 
     sig { abstract.returns(Pathname) }
@@ -43,7 +43,8 @@ module Tables
     def build_column_from_definition(column, table_name)
       Tables::Column.new(
         id: column.fetch('id'),
-        name: column.fetch('name')
+        name: column.fetch('name'),
+        orderable: column.fetch('orderable')
       )
     end
   end

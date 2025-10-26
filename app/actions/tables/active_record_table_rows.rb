@@ -9,6 +9,7 @@ module Tables
     const :base_class, T.class_of(ApplicationRecord)
     const :value_extractor_class, T.class_of(ValueExtractor), factory: -> { Tables::ValueExtractor }
     const :selected, T::Array[Tables::Column]
+    const :ordering, T::Array[SortOrder]
 
     sig { override.returns(T::Array[TableRow]) }
     def entries

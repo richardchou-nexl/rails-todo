@@ -27,7 +27,7 @@ module Tables
       Tables::TableCell.new(
         id: "#{record.id}_#{column.id}",
         column: column,
-        values: Array.wrap([record.public_send(column.id).to_s, rand(1..99)])
+        values: Array.wrap([record.public_send(column.id).to_s])
       )
     end
   end

@@ -31,6 +31,7 @@ module Types
     field :table_rows, TableRowEntriesType, null: false do
       description 'Table rows'
       argument :source, Inputs::TableSourceInput, required: true
+      argument :ordering, [Inputs::OrderingInput], required: false
     end
 
     field :table_definition, TableDefinitionType, null: false do
@@ -51,25 +52,18 @@ module Types
       todos + items
     end
 
-    def table_rows(source:)
+    def table_rows(source:, ordering: [])
       table = source.table_implementation
-      result = table.rows(selected: selected)
+      columns = table.columns
+      selected = source.selected_columns
+      ordering = Array(ordering).map { |o| o.to_sort_order(columns) }
 
+      result = table.rows(selected:, ordering:)
       { entries: result.entries }
     end
 
     def table_definition(source:)
       source.table_implementation
-    end
-
-    private
-
-    def selected
-      [
-        Tables::Column.new(id: 'id', name: 'ID'),
-        Tables::Column.new(id: 'subject', name: 'Subject'),
-        Tables::Column.new(id: 'status', name: 'Status')
-      ]
     end
   end
 end

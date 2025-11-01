@@ -2,16 +2,19 @@
   {
     "id": "id",
     "name": "ID",
-    "orderable": true
+    "orderable": true,
+    "order_column": "id"
   },
   {
     "id": "status",
     "name": "Status",
-    "orderable": true
+    "orderable": true,
+    "order_column": "status"
   },
   {
     "id": "subject",
     "name": "Subject",
-    "orderable": true
+    "orderable": true,
+    "order_column": "subject"
   }
 ]

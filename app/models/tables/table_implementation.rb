@@ -37,6 +37,17 @@ module Tables
       column_definitions.map { |column| build_column_from_definition(column, table_name) }
     end
 
+    sig do
+      params(column: T::Hash[String, T.untyped], table_name: String).returns(T.nilable(OrderApplier))
+    end
+    def resolve_orderable(column, table_name)
+      return nil unless column['orderable']
+
+      column_id = column['order_column'] || column.fetch('id')
+
+      Tables::TableColumnOrderer.new(table_name)
+    end
+
     private
 
     sig { params(column: T::Hash[String, T.untyped], table_name: String).returns(Tables::Column) }
@@ -44,7 +55,8 @@ module Tables
       Tables::Column.new(
         id: column.fetch('id'),
         name: column.fetch('name'),
-        orderable: column.fetch('orderable')
+        order_column: column['order_column'],
+        orderable: resolve_orderable(column, table_name)
       )
     end
   end

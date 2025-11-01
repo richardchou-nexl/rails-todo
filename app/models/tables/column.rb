@@ -6,6 +6,10 @@ module Tables
 
     const :id, String
     const :name, String
-    const :orderable, T::Boolean
+    const :orderable, T.nilable(OrderApplier)
+    const :order_column, T.nilable(String)
+
+    sig { returns(String) }
+    def order_column! = order_column.presence || id
   end
 end

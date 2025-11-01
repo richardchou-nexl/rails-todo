@@ -48,9 +48,21 @@ module Core
         Tables::Column.new(
           id: col.id,
           name: col.name,
-          orderable: col.orderable
+          order_column: col.order_column,
+          orderable: resolve_contact_orderable(col, table_name)
         )
       end
+    end
+
+    sig do
+      params(column: Tables::Column, table_name: String).returns(T.nilable(Tables::OrderApplier))
+    end
+    def resolve_contact_orderable(column, table_name)
+      return nil unless column.orderable
+
+      column_id = column.order_column!
+
+      Tables::TableColumnOrderer.new(table_name)
     end
   end
 end

@@ -37,12 +37,24 @@ module Tables
 
     sig { returns(ActiveRecord::Relation) }
     def build_scope
-      base_scope
+      records = base_scope
+      records = apply_order(records) if ordering
+      records
     end
 
     sig { returns(ActiveRecord::Relation) }
     def scope
       @scope ||= T.let(build_scope, T.nilable(ActiveRecord::Relation))
+    end
+
+    sig { params(records: ActiveRecord::Relation).returns(ActiveRecord::Relation) }
+    def apply_order(records)
+      ordered_records = T.unsafe(records)
+      ordering.map do |order|
+        orderable = T.must(order.column.orderable)
+        ordered_records = orderable.apply(ordered_records, column: order.column, direction: order.direction)
+      end.compact
+      ordered_records
     end
   end
 end

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react"
+import React, { useCallback, useMemo } from "react"
 import { AgGridReact } from "ag-grid-react"
 import { ColDef, GridReadyEvent, SortChangedEvent, ModuleRegistry, ValidationModule, AllCommunityModule } from "ag-grid-community"
 import { AllEnterpriseModule } from "ag-grid-enterprise"
@@ -43,15 +43,18 @@ const Todos = () => {
     }
   }, [])
 
-  const dataSource = useServerSideDatasource({ getTableRows })
+  const getGridApi = useCallback(() => gridRef.current?.api, [gridRef])
+
+  const getDataSource = useServerSideDatasource({ getTableRows })
 
   const onGridReady = async (params: GridReadyEvent) => {
     //const fakeServer = createFakeServer({ getTodos })
     //const datasource = createServerSideDatasource(fakeServer)
     //params.api!.setGridOption("serverSideDatasource", datasource)
-    const gridApi = gridRef.current?.api
 
+    const gridApi = getGridApi()
     if (gridApi) {
+      const dataSource = getDataSource()
       gridApi.setGridOption("serverSideDatasource", dataSource)
     }
   }
